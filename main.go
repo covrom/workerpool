@@ -15,11 +15,12 @@ import (
 
 var (
 	head         = flag.Bool("head", false, "print csv header")
-	pooltyp      = flag.Bool("pool", false, "pool type")
+	pooltyp      = flag.Bool("pool", false, "workerpool type")
+	pooltypf     = flag.Bool("fpool", false, "full filled buffer before workerpool type")
 	gotyp        = flag.Bool("go", false, "goroutine type")
 	gotypd       = flag.Bool("dgo", false, "delayed goroutine type")
-	numWorkers   = flag.Int("w", 20, "number of workers for pool type")
-	chanSize     = flag.Int("ch", 200, "channel buffer size for pool type")
+	numWorkers   = flag.Int("w", 20, "number of workers for workerpool types")
+	chanSize     = flag.Int("ch", 200, "channel buffer size for workerpool type")
 	totalObjects = flag.Int("c", 30e4, "objects count")
 )
 
@@ -120,6 +121,17 @@ func main() {
 		runWorkers()
 		start = time.Now()
 		go useWorkers()
+		waitWorkers()
+
+	case *pooltypf:
+
+		mode = "Пул воркеров (буфер заполнен)"
+		*chanSize = *totalObjects
+		chin = make(chan []byte, *totalObjects)
+
+		useWorkers()
+		start = time.Now()
+		runWorkers()
 		waitWorkers()
 
 	case *gotyp:
