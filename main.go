@@ -16,7 +16,8 @@ import (
 var (
 	head         = flag.Bool("head", false, "print csv header")
 	pooltyp      = flag.Bool("pool", false, "pool type")
-	gotyp        = flag.Bool("go", false, "go type")
+	gotyp        = flag.Bool("go", false, "goroutine type")
+	gotypd       = flag.Bool("dgo", false, "delayed goroutine type")
 	numWorkers   = flag.Int("w", 20, "number of workers for pool type")
 	chanSize     = flag.Int("ch", 200, "channel buffer size for pool type")
 	totalObjects = flag.Int("c", 30e4, "objects count")
@@ -78,6 +79,25 @@ func simpleGo() {
 	}
 }
 
+func processingDelayed(b []byte, chstart chan bool) {
+	<-chstart
+	obj := Object{}
+	if err := json.Unmarshal(b, &obj); err != nil {
+		panic(err)
+	}
+	chnull <- obj
+}
+
+func delayedGo() {
+	chstart := make(chan bool)
+	for i := 0; i < *totalObjects; i++ {
+		b := make([]byte, len(testCase))
+		copy(b, testCase)
+		go processingDelayed(b, chstart)
+	}
+	close(chstart)
+}
+
 func main() {
 	flag.Parse()
 
@@ -92,7 +112,8 @@ func main() {
 
 	runtime.ReadMemStats(m1)
 
-	if *pooltyp {
+	switch {
+	case *pooltyp:
 
 		mode = "Пул воркеров"
 
@@ -101,7 +122,7 @@ func main() {
 		go useWorkers()
 		waitWorkers()
 
-	} else if *gotyp {
+	case *gotyp:
 
 		mode = "Горутины"
 		*numWorkers = 0
@@ -110,7 +131,15 @@ func main() {
 		go simpleGo()
 		waitWorkers()
 
-	} else {
+	case *gotypd:
+
+		mode = "Горутины (одновременно)"
+		*numWorkers = *totalObjects
+		go delayedGo()
+		start = time.Now()
+		waitWorkers()
+
+	default:
 		flag.Usage()
 		os.Exit(1)
 	}
