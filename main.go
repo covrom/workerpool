@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
-	"log"
 	"os"
 	"runtime"
 	"strings"
@@ -112,7 +111,8 @@ func main() {
 		waitWorkers()
 
 	} else {
-		log.Fatal("usage: workerpool -pool | -go")
+		flag.Usage()
+		os.Exit(1)
 	}
 
 	runtime.ReadMemStats(m2)
