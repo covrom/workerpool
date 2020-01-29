@@ -21,7 +21,7 @@ go build .
 ./workerpool -fpool -c 30000 >> res.csv
 ./workerpool -fpool -c 300000 >> res.csv
 ./workerpool -fpool -c 3000000 >> res.csv
-./workerpool -fpool -c 30000000 >> res.csv
+# ./workerpool -fpool -c 30000000 >> res.csv
 
 ./workerpool -dgo -c 300 >> res.csv
 ./workerpool -dgo -c 3000 >> res.csv
@@ -29,3 +29,10 @@ go build .
 ./workerpool -dgo -c 300000 >> res.csv
 ./workerpool -dgo -c 3000000 >> res.csv
 # ./workerpool -dgo -c 30000000 >> res.csv
+
+./workerpool -fgo -c 300 >> res.csv
+./workerpool -fgo -c 3000 >> res.csv
+./workerpool -fgo -c 30000 >> res.csv
+./workerpool -fgo -c 300000 >> res.csv
+./workerpool -fgo -c 3000000 >> res.csv
+./workerpool -fgo -c 30000000 >> res.csv

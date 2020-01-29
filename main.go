@@ -5,12 +5,15 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
+	"log"
 	"os"
 	"runtime"
 	"strings"
+	"sync"
 	"time"
 
 	"github.com/google/uuid"
+	"github.com/valyala/fastjson"
 )
 
 var (
@@ -19,6 +22,7 @@ var (
 	pooltypf     = flag.Bool("fpool", false, "full filled buffer before workerpool type")
 	gotyp        = flag.Bool("go", false, "goroutine type")
 	gotypd       = flag.Bool("dgo", false, "delayed goroutine type")
+	gotypf       = flag.Bool("fgo", false, "fast goroutine type")
 	numWorkers   = flag.Int("w", 20, "number of workers for workerpool types")
 	chanSize     = flag.Int("ch", 200, "channel buffer size for workerpool type")
 	totalObjects = flag.Int("c", 30e4, "objects count")
@@ -64,9 +68,14 @@ func useWorkers() {
 
 func waitWorkers() {
 	i := 0
-	for _ = range chnull {
+	for obj := range chnull {
 		i++
 		if i == *totalObjects {
+			if obj.A.String() != "f47ac10b-58cc-0372-8567-0e02b2c3d479" ||
+				obj.B != 3.14159265359 ||
+				obj.C != "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Dapibus ultrices in iaculis nunc sed. At erat pellentesque adipiscing commodo elit at imperdiet dui accumsan. Dignissim sodales ut eu sem. Mattis vulputate enim nulla aliquet porttitor lacus luctus." {
+				log.Fatalf("obj = %+v\n", obj)
+			}
 			return
 		}
 	}
@@ -97,6 +106,38 @@ func delayedGo() {
 		go processingDelayed(b, chstart)
 	}
 	close(chstart)
+}
+
+var poolBuf = &sync.Pool{
+	New: func() interface{} { return make([]byte, len(testCase)) },
+}
+
+var poolParser fastjson.ParserPool
+
+func processingFast(b []byte) {
+	obj := Object{}
+	p := poolParser.Get()
+	v, err := p.ParseBytes(b)
+	if err != nil {
+		log.Fatal(err)
+	}
+	obj.A, err = uuid.ParseBytes(v.GetStringBytes("A"))
+	if err != nil {
+		log.Fatal(err)
+	}
+	obj.B = v.GetFloat64("B")
+	obj.C = string(v.GetStringBytes("C"))
+	poolBuf.Put(b)
+	poolParser.Put(p)
+	chnull <- obj
+}
+
+func fastGo() {
+	for i := 0; i < *totalObjects; i++ {
+		b := poolBuf.Get().([]byte)
+		copy(b, testCase)
+		go processingFast(b)
+	}
 }
 
 func main() {
@@ -147,8 +188,17 @@ func main() {
 
 		mode = "Горутины (одновременно)"
 		*numWorkers = *totalObjects
-		go delayedGo()
+		delayedGo()
 		start = time.Now()
+		waitWorkers()
+
+	case *gotypf:
+
+		mode = "Горутины (fast)"
+		*numWorkers = 0
+
+		start = time.Now()
+		go fastGo()
 		waitWorkers()
 
 	default:

@@ -1,2 +1,4 @@
 github.com/google/uuid v1.1.1 h1:Gkbcsh/GbpXz7lPftLA3P6TYMwjCLYm83jiFQZF/3gY=
 github.com/google/uuid v1.1.1/go.mod h1:TIyPZe4MgqvfeYDBFedMoGGpEw/LqOeaOT+nhxU+yHo=
+github.com/valyala/fastjson v1.4.5 h1:uSuLfXk2LzRtzwd3Fy5zGRBe0Vs7zhs11vjdko32xb4=
+github.com/valyala/fastjson v1.4.5/go.mod h1:nV6MsjxL2IMJQUoHDIrjEI7oLyeqK6aBD7EFWPsvP8o=
