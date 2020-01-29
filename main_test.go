@@ -13,6 +13,7 @@ func TestMain(m *testing.M) {
 
 func BenchmarkPool(b *testing.B) { // CPU util: 90%
 	*totalObjects = b.N
+	*numWorkers = 20
 	chin = make(chan []byte, 200)
 	chnull = make(chan Object, 200)
 	runWorkers()
@@ -23,6 +24,7 @@ func BenchmarkPool(b *testing.B) { // CPU util: 90%
 
 func BenchmarkPoolFull(b *testing.B) { // CPU util: 100%
 	*totalObjects = b.N
+	*numWorkers = 20
 	chin = make(chan []byte, *totalObjects)
 	chnull = make(chan Object, 200)
 	useWorkers()
@@ -58,6 +60,7 @@ func BenchmarkGoFast(b *testing.B) { // CPU util: 93%
 
 func BenchmarkPoolFast(b *testing.B) { // CPU util: 90%
 	*totalObjects = b.N
+	*numWorkers = 20
 	chin = make(chan []byte, 200)
 	chnull = make(chan Object, 200)
 	runFastWorkers()
