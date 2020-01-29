@@ -19,10 +19,11 @@ import (
 var (
 	head         = flag.Bool("head", false, "print csv header")
 	pooltyp      = flag.Bool("pool", false, "workerpool type")
-	pooltypf     = flag.Bool("fpool", false, "full filled buffer before workerpool type")
+	pooltypf     = flag.Bool("fullpool", false, "full filled buffer before workerpool type")
 	gotyp        = flag.Bool("go", false, "goroutine type")
 	gotypd       = flag.Bool("dgo", false, "delayed goroutine type")
 	gotypf       = flag.Bool("fgo", false, "fast goroutine type")
+	fastpooltyp  = flag.Bool("fastpool", false, "fast workerpool type")
 	numWorkers   = flag.Int("w", 20, "number of workers for workerpool types")
 	chanSize     = flag.Int("ch", 200, "channel buffer size for workerpool type")
 	totalObjects = flag.Int("c", 30e4, "objects count")
@@ -140,6 +141,18 @@ func fastGo() {
 	}
 }
 
+func fastWorker() {
+	for jo := range chin {
+		processingFast(jo)
+	}
+}
+
+func runFastWorkers() {
+	for i := 0; i < *numWorkers; i++ {
+		go fastWorker()
+	}
+}
+
 func main() {
 	flag.Parse()
 
@@ -199,6 +212,15 @@ func main() {
 
 		start = time.Now()
 		go fastGo()
+		waitWorkers()
+
+	case *fastpooltyp:
+
+		mode = "Пул воркеров (fast)"
+
+		runFastWorkers()
+		start = time.Now()
+		go useWorkers()
 		waitWorkers()
 
 	default:
