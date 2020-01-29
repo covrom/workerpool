@@ -8,6 +8,7 @@ import (
 	"log"
 	"os"
 	"runtime"
+	"runtime/pprof"
 	"strings"
 	"sync"
 	"time"
@@ -27,6 +28,7 @@ var (
 	numWorkers   = flag.Int("w", 20, "number of workers for workerpool types")
 	chanSize     = flag.Int("ch", 200, "channel buffer size for workerpool type")
 	totalObjects = flag.Int("c", 30e4, "objects count")
+	cpuprofile   = flag.String("cpu", "", "write cpu profile to `file`")
 )
 
 type Object struct {
@@ -164,6 +166,18 @@ func main() {
 	m1 := &runtime.MemStats{}
 	m2 := &runtime.MemStats{}
 	var start time.Time
+
+	if *cpuprofile != "" {
+		f, err := os.Create(*cpuprofile)
+		if err != nil {
+			log.Fatal("could not create CPU profile: ", err)
+		}
+		defer f.Close()
+		if err := pprof.StartCPUProfile(f); err != nil {
+			log.Fatal("could not start CPU profile: ", err)
+		}
+		defer pprof.StopCPUProfile()
+	}
 
 	runtime.ReadMemStats(m1)
 
