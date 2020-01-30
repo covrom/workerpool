@@ -242,6 +242,8 @@ func main() {
 		os.Exit(1)
 	}
 
+	dur := time.Since(start)
+
 	runtime.ReadMemStats(m2)
 
 	w := csv.NewWriter(os.Stdout)
@@ -266,7 +268,7 @@ func main() {
 		fmt.Sprint(*numWorkers),
 		fmt.Sprint(*chanSize),
 		fmt.Sprint(*totalObjects),
-		strings.ReplaceAll(fmt.Sprint(float64(time.Since(start))/float64(time.Second)), ".", ","),
+		strings.ReplaceAll(fmt.Sprint(float64(dur)/float64(time.Second)), ".", ","),
 		fmt.Sprint(m2.Alloc - m1.Alloc),
 		fmt.Sprint(m2.Mallocs - m1.Mallocs),
 		fmt.Sprint(m2.TotalAlloc - m1.TotalAlloc),
