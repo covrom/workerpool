@@ -2,6 +2,8 @@ module github.com/covrom/workerpool
 
 go 1.13
 
+replace github.com/wcharczuk/go-chart => github.com/twessling-icas/go-chart v2.0.2-0.20200111131701-2ad87adf6ac0+incompatible
+
 require (
 	github.com/alecthomas/template v0.0.0-20190718012654-fb15b899a751 // indirect
 	github.com/alecthomas/units v0.0.0-20190924025748-f65c72e2690d // indirect

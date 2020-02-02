@@ -32,11 +32,12 @@ func drawOne(field string, m map[string][]measures.Measures, outName string) err
 		},
 		YAxis: chart.YAxis{
 			Name:  field,
-			Style: chart.Style{Show: true},
+			Range: &chart.LogarithmicRange{},
 		},
 		XAxis: chart.XAxis{
 			Name:  "Amount",
-			Style: chart.Style{Show: true, TextRotationDegrees: 45.0},
+			Style: chart.Style{TextRotationDegrees: 45.0},
+			Range: &chart.LogarithmicRange{},
 		},
 		Series: make([]chart.Series, 0, len(m)),
 	}
@@ -48,7 +49,7 @@ func drawOne(field string, m map[string][]measures.Measures, outName string) err
 			Name:    c,
 			XValues: make([]float64, 0, len(m[c])),
 			YValues: make([]float64, 0, len(m[c])),
-			Style:   chart.Style{Show: true, DotWidth: 3},
+			Style:   chart.Style{DotWidth: 3},
 		}
 
 		for _, p := range m[c] {
@@ -60,7 +61,7 @@ func drawOne(field string, m map[string][]measures.Measures, outName string) err
 	}
 
 	graph.Elements = []chart.Renderable{
-		chart.Legend(&graph),
+		chart.LegendThin(&graph),
 	}
 
 	f, err := os.Create(field + "." + outName)
