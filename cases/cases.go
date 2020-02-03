@@ -36,10 +36,3 @@ var testResult = testType{
 	B: 3.14159265359,
 	C: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Dapibus ultrices in iaculis nunc sed. At erat pellentesque adipiscing commodo elit at imperdiet dui accumsan. Dignissim sodales ut eu sem. Mattis vulputate enim nulla aliquet porttitor lacus luctus.",
 }
-
-func copyBytes(src []byte) []byte {
-	//return src
-	b := make([]byte, len(src))
-	copy(b, src)
-	return b
-}

@@ -8,17 +8,11 @@ func init() {
 }
 
 func fastgoRun(_ int, _ int, amount int, _ chan []byte, chout chan testType) {
-	go runFastGo(amount, chout)
+	go func() {
+		for i := 0; i < amount; i++ {
+			go goroutine(processingFast, copyBytes(testData), chout)
+		}
+	}()
 
 	waitChout(amount, chout)
-}
-
-func fastgo(f func([]byte) testType, b []byte, chout chan<- testType) {
-	chout <- f(b)
-}
-
-func runFastGo(amount int, chout chan<- testType) {
-	for i := 0; i < amount; i++ {
-		go fastgo(processingFast, copyBytes(testData), chout)
-	}
 }
