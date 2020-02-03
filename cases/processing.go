@@ -66,9 +66,9 @@ func waitChout(amount int, chout <-chan testType) {
 
 	for obj := range chout {
 		_ = obj
-		//if !testResult.Equal(obj) {
-		//	panic(fmt.Errorf("got %+v, expect %+v: %w", obj, testResult, ErrUnexpectedResult))
-		//}
+		if !testResult.Equal(obj) {
+			panic(fmt.Errorf("got %+v, expect %+v: %w", obj, testResult, ErrUnexpectedResult))
+		}
 		amount--
 		if amount == 0 {
 			log.Printf("completed output")
