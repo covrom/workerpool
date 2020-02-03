@@ -12,7 +12,7 @@ type Measures struct {
 	Workers         int           // "Воркеры (шт)",
 	ChanLen         int           // "Буфер канала (шт)",
 	Amount          int           // "Объекты (шт)",
-	Spent           time.Duration // "Время работы (сек)",
+	SpentMs           time.Duration // "Время работы (сек)",
 	AllocBytes      uint64        // "Alloc space (байт)",
 	AllocObjects    uint64        // "Alloc objects (шт)",
 	AllocBytesTotal uint64        // "Total alloc (байт)",
@@ -25,7 +25,7 @@ func (m Measures) Fields() []string {
 		fmt.Sprint(m.Workers),
 		fmt.Sprint(m.ChanLen),
 		fmt.Sprint(m.Amount),
-		strings.ReplaceAll(fmt.Sprint(m.Spent.Seconds()), ".", ","),
+		strings.ReplaceAll(fmt.Sprint(m.SpentMs.Seconds()), ".", ","),
 		fmt.Sprint(m.AllocBytes),
 		fmt.Sprint(m.AllocObjects),
 		fmt.Sprint(m.AllocBytesTotal),
@@ -39,7 +39,7 @@ func Fields() []string {
 		"Workers",         // "Воркеры (шт)",
 		"ChanLen",         // "Буфер канала (шт)",
 		"Amount",          // "Объекты (шт)",
-		"Spent",           // "Время работы (сек)",
+		"SpentMs",           // "Время работы (мс)",
 		"AllocBytes",      // "Alloc space (байт)",
 		"AllocObjects",    // "Alloc objects (шт)",
 		"AllocBytesTotal", // "Total alloc (байт)",
@@ -49,7 +49,7 @@ func Fields() []string {
 
 func Values() []string {
 	return []string{
-		"Spent",           // "Время работы (сек)",
+		"SpentMs",           // "Время работы (мс)",
 		"AllocBytes",      // "Alloc space (байт)",
 		"AllocObjects",    // "Alloc objects (шт)",
 		"AllocBytesTotal", // "Total alloc (байт)",
@@ -61,8 +61,8 @@ var ErrNoSuchField = errors.New("no such field")
 
 func (m Measures) Value(n string) float64 {
 	switch n {
-	case "Spent":
-		return m.Spent.Seconds()
+	case "SpentMs":
+		return float64(m.SpentMs) / float64(time.Millisecond)
 	case "AllocBytes":
 		return float64(m.AllocBytes)
 	case "AllocObjects":

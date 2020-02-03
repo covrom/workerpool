@@ -48,7 +48,7 @@ func RunOne(name string, workers int, chanLen int, amount int, profile string) {
 
 	c.Run(workers, chanLen, amount, chin, chout)
 
-	spent := time.Now().Sub(start)
+	SpentMs := time.Now().Sub(start)
 
 	runtime.ReadMemStats(m2)
 
@@ -58,7 +58,7 @@ func RunOne(name string, workers int, chanLen int, amount int, profile string) {
 			Workers:         workers,
 			ChanLen:         chanLen,
 			Amount:          amount,
-			Spent:           spent,
+			SpentMs:           SpentMs,
 			AllocBytes:      m2.Alloc - m1.Alloc,
 			AllocObjects:    m2.Mallocs - m1.Mallocs,
 			AllocBytesTotal: m2.TotalAlloc - m1.TotalAlloc,

@@ -25,14 +25,16 @@ func Draw(m map[string][]measures.Measures, outName string, lx bool, ly bool) er
 func drawOne(field string, m map[string][]measures.Measures, outName string, lx bool, ly bool) error {
 	log.Printf("creating %q chart", field)
 	graph := chart.Chart{
+		Width:  1280,
+		Height: 720,
 		Background: chart.Style{
 			Padding: chart.Box{
-				Top:  20,
-				Left: 20,
+				Top: 50,
 			},
 		},
 		YAxis: chart.YAxis{
-			Name: field,
+			Name:           field,
+			ValueFormatter: chart.IntValueFormatter,
 		},
 		XAxis: chart.XAxis{
 			Name:  "Amount",
