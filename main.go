@@ -25,11 +25,11 @@ var (
 
 	cmdRunAll        = app.Command("run", "run all the defined test, write results to JSON file")
 	cmdRunAllCases   = cmdRunAll.Arg("cases", "cases to run, omit to run all the defined").Strings()
-	cmdRunAllOut     = cmdRunAll.Flag("output", "output file name").Default("results.json").String()
+	cmdRunAllOut     = cmdRunAll.Flag("res", "file the results are stored").Default("results.json").String()
 	cmdRunAllWorkers = cmdRunAll.Flag("workers", "number of workers for workerpool types").Default("20").Int()
 	cmdRunAllChanLen = cmdRunAll.Flag("chan", "channel buffer size for workerpool type").Default("200").Int()
 	cmdRunAllAmount  = cmdRunAll.Flag("amount", "objects count, separate test will be running for each value listed").Short('a').Int32List()
-	cmdRunAllProfile = cmdRunAll.Flag("profile", "write cpu profile file name Sprint4f template, case name and amount will be passed to it as the params").String()
+	cmdRunAllProfile = cmdRunAll.Flag("profile", "write cpu profile to `file`").String()
 	cmdRunAllChart   = cmdRunAll.Flag("chart", "file name for the PNG format chart").String()
 	cmdRunAllLX      = cmdRunAll.Flag("lx", "logarithmic X axis").Bool()
 	cmdRunAllLY      = cmdRunAll.Flag("ly", "logarithmic Y axis").Bool()
@@ -42,13 +42,13 @@ var (
 	cmdRunOneProfile = cmdRunOne.Flag("profile", "write cpu profile to `file`").Default("").String()
 
 	cmdChart    = app.Command("chart", "generate chart from the previously collected data")
-	cmdChartIn  = cmdChart.Flag("in", "input file").Default("results.json").String()
-	cmdChartOut = cmdChart.Flag("out", "file name for the PNG format chart").Default("results.png").String()
+	cmdChartIn  = cmdChart.Flag("res", "file the results are stored").Default("results.json").String()
+	cmdChartOut = cmdChart.Flag("chart", "file name for the PNG format chart").Default("results.png").String()
 	cmdChartLX  = cmdChart.Flag("lx", "logarithmic X axis").Bool()
 	cmdChartLY  = cmdChart.Flag("ly", "logarithmic Y axis").Bool()
 
 	cmdCSV    = app.Command("csv", "convert results to CSV file")
-	cmdCSVIn  = cmdCSV.Flag("in", "input file").Default("results.json").String()
+	cmdCSVIn  = cmdCSV.Flag("res", "file the results are stored").Default("results.json").String()
 	cmdCSVOut = cmdCSV.Flag("out", "file name for the CSV file").Default("results.csv").String()
 )
 
@@ -88,7 +88,7 @@ func runAll(casesList []string, out string, workers int, chanLen int, amount []i
 		for _, c := range casesList {
 			p := profile
 			if p != "" {
-				p = fmt.Sprintf(p, c, a)
+				p = fmt.Sprintf("%s.%d.%s", c, a, p)
 			}
 
 			cmd := exec.Command(
