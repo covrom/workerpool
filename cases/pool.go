@@ -14,7 +14,7 @@ func init() {
 }
 
 func workersPrepare(workers int, chanLen int, amount int) (chin chan []byte, chout chan testType) {
-	chin, chout = make(chan []byte, chanLen), make(chan testType)
+	chin, chout = make(chan []byte, chanLen), make(chan testType, chanLen)
 
 	runWorkers(workers, chin, chout)
 
