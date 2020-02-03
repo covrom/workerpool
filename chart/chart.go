@@ -55,14 +55,14 @@ func drawOne(field string, m map[string][]measures.Measures, outName string, lx 
 			s.XValues = append(s.XValues, float64(p.Amount))
 			s.YValues = append(s.YValues, p.Value(field))
 			graph.XAxis.Ticks = append(graph.XAxis.Ticks, chart.Tick{Value: float64(p.Amount), Label: strconv.Itoa(p.Amount)})
-			graph.YAxis.Ticks = append(graph.YAxis.Ticks, chart.Tick{Value: float64(int(p.Value(field))), Label: fmt.Sprintf("%d", int(p.Value(field)))})
+			//graph.YAxis.Ticks = append(graph.YAxis.Ticks, chart.Tick{Value: float64(int(p.Value(field))), Label: fmt.Sprintf("%d", int(p.Value(field)))})
 		}
 
 		graph.Series = append(graph.Series, s)
 	}
 
 	graph.XAxis.Ticks = cleanTicks(graph.XAxis.Ticks)
-	graph.YAxis.Ticks = cleanTicks(graph.YAxis.Ticks)
+	//graph.YAxis.Ticks = cleanTicks(graph.YAxis.Ticks)
 
 	if lx {
 		graph.XAxis.Range = &chart.LogarithmicRange{}
