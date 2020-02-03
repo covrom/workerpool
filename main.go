@@ -26,7 +26,7 @@ var (
 	gotypf       = flag.Bool("fgo", false, "fast goroutine type")
 	fastpooltyp  = flag.Bool("fastpool", false, "fast workerpool type")
 	numWorkers   = flag.Int("w", 20, "number of workers for workerpool types")
-	chanSize     = flag.Int("ch", 200, "channel buffer size for workerpool type")
+	chanSize     = flag.Int("ch", 10000, "channel buffer size for workerpool type")
 	totalObjects = flag.Int("c", 30e4, "objects count")
 	cpuprofile   = flag.String("cpu", "", "write cpu profile to `file`")
 )
