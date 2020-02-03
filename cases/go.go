@@ -12,17 +12,15 @@ func goPrepare(_ int, chanLen int, amount int) (chin chan []byte, chout chan tes
 }
 
 func goRun(_ int, _ int, amount int, _ chan []byte, chout chan testType) {
-	go runGoroutines(amount, chout)
+	go func() {
+		for i := 0; i < amount; i++ {
+			go goroutine(processing, copyBytes(testData), chout)
+		}
+	}()
 
 	waitChout(amount, chout)
 }
 
 func goroutine(f func([]byte) testType, b []byte, chout chan<- testType) {
 	chout <- f(b)
-}
-
-func runGoroutines(amount int, chout chan<- testType) {
-	for i := 0; i < amount; i++ {
-		go goroutine(processing, copyBytes(testData), chout)
-	}
 }
