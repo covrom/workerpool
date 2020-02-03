@@ -24,16 +24,18 @@ var (
 	app = kingpin.New("workerspool-test", "run the workerspool test")
 
 	cmdRunAll        = app.Command("run", "run all the defined test, write results to JSON file")
-	cmdRunAllCases   = cmdRunAll.Arg("cases", "cases to run. omit to run all defined.").Strings()
+	cmdRunAllCases   = cmdRunAll.Arg("cases", "cases to run, omit to run all the defined").Strings()
 	cmdRunAllOut     = cmdRunAll.Flag("output", "output file name").Default("results.json").String()
 	cmdRunAllWorkers = cmdRunAll.Flag("workers", "number of workers for workerpool types").Default("20").Int()
 	cmdRunAllChanLen = cmdRunAll.Flag("chan", "channel buffer size for workerpool type").Default("200").Int()
-	cmdRunAllAmount  = cmdRunAll.Flag("amount", "objects count, separate test will be runnting for each value listed").Short('a').Int32List()
-	cmdRunAllProfile = cmdRunAll.Flag("profile", "write cpu profile file name Sprint4f template. case name and amount will be passed to it as the params").String()
+	cmdRunAllAmount  = cmdRunAll.Flag("amount", "objects count, separate test will be running for each value listed").Short('a').Int32List()
+	cmdRunAllProfile = cmdRunAll.Flag("profile", "write cpu profile file name Sprint4f template, case name and amount will be passed to it as the params").String()
 	cmdRunAllChart   = cmdRunAll.Flag("chart", "file name for the PNG format chart").String()
+	cmdRunAllLX      = cmdRunAll.Flag("lx", "logarithmic X axis").Bool()
+	cmdRunAllLY      = cmdRunAll.Flag("ly", "logarithmic Y axis").Bool()
 
 	cmdRunOne        = app.Command("runone", "run the specified test, write results to STDOUT")
-	cmdRunOneName    = cmdRunOne.Arg("case", "name of the case to run").String()
+	cmdRunOneName    = cmdRunOne.Arg("case", "name of the case to run").Required().String()
 	cmdRunOneWorkers = cmdRunOne.Flag("workers", "number of workers for workerpool types").Int()
 	cmdRunOneChanLen = cmdRunOne.Flag("chan", "channel buffer size for workerpool type").Int()
 	cmdRunOneAmount  = cmdRunOne.Flag("amount", "objects count").Int()
@@ -42,6 +44,8 @@ var (
 	cmdChart    = app.Command("chart", "generate chart from the previously collected data")
 	cmdChartIn  = cmdChart.Flag("in", "input file").Default("results.json").String()
 	cmdChartOut = cmdChart.Flag("out", "file name for the PNG format chart").Default("results.png").String()
+	cmdChartLX  = cmdChart.Flag("lx", "logarithmic X axis").Bool()
+	cmdChartLY  = cmdChart.Flag("ly", "logarithmic Y axis").Bool()
 
 	cmdCSV    = app.Command("csv", "convert results to CSV file")
 	cmdCSVIn  = cmdCSV.Flag("in", "input file").Default("results.json").String()
@@ -51,17 +55,27 @@ var (
 func main() {
 	switch kingpin.MustParse(app.Parse(os.Args[1:])) {
 	case cmdRunAll.FullCommand():
-		runAll(*cmdRunAllCases, *cmdRunAllOut, *cmdRunAllWorkers, *cmdRunAllChanLen, *cmdRunAllAmount, *cmdRunAllProfile, *cmdRunAllChart)
+		runAll(
+			*cmdRunAllCases,
+			*cmdRunAllOut,
+			*cmdRunAllWorkers,
+			*cmdRunAllChanLen,
+			*cmdRunAllAmount,
+			*cmdRunAllProfile,
+			*cmdRunAllChart,
+			*cmdRunAllLX,
+			*cmdRunAllLY,
+		)
 	case cmdRunOne.FullCommand():
 		runOne(*cmdRunOneName, *cmdRunOneWorkers, *cmdRunOneChanLen, *cmdRunOneAmount, *cmdRunOneProfile)
 	case cmdChart.FullCommand():
-		runChart(*cmdChartIn, *cmdChartOut)
+		runChart(*cmdChartIn, *cmdChartOut, *cmdChartLX, *cmdChartLY)
 	case cmdCSV.FullCommand():
 		runCSV(*cmdCSVIn, *cmdCSVOut)
 	}
 }
 
-func runAll(casesList []string, out string, workers int, chanLen int, amount []int32, profile string, chartOut string) {
+func runAll(casesList []string, out string, workers int, chanLen int, amount []int32, profile string, chartOut string, lx bool, ly bool) {
 	if len(casesList) == 0 {
 		casesList = enumerateCases(cases.Cases)
 	}
@@ -122,7 +136,7 @@ func runAll(casesList []string, out string, workers int, chanLen int, amount []i
 	}
 
 	if chartOut != "" {
-		err = chart.Draw(res, chartOut)
+		err = chart.Draw(res, chartOut, lx, ly)
 		if err != nil {
 			panic(err)
 		}
@@ -185,7 +199,7 @@ func runOne(name string, workers int, chanLen int, amount int, profile string) {
 	}
 }
 
-func runChart(in string, out string) {
+func runChart(in string, out string, lx bool, ly bool) {
 	f, err := os.Open(in)
 	if err != nil {
 		panic(err)
@@ -199,7 +213,7 @@ func runChart(in string, out string) {
 		panic(err)
 	}
 
-	err = chart.Draw(m, out)
+	err = chart.Draw(m, out, lx, ly)
 	if err != nil {
 		panic(err)
 	}

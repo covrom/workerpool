@@ -10,9 +10,9 @@ import (
 	"github.com/wcharczuk/go-chart"
 )
 
-func Draw(m map[string][]measures.Measures, outName string) error {
+func Draw(m map[string][]measures.Measures, outName string, lx bool, ly bool) error {
 	for _, n := range measures.Values() {
-		err := drawOne(n, m, outName)
+		err := drawOne(n, m, outName, lx, ly)
 		if err != nil {
 			return fmt.Errorf("%q: %w", n, err)
 		}
@@ -21,7 +21,7 @@ func Draw(m map[string][]measures.Measures, outName string) error {
 	return nil
 }
 
-func drawOne(field string, m map[string][]measures.Measures, outName string) error {
+func drawOne(field string, m map[string][]measures.Measures, outName string, lx bool, ly bool) error {
 	log.Printf("creating %q chart", field)
 	graph := chart.Chart{
 		Background: chart.Style{
@@ -31,13 +31,11 @@ func drawOne(field string, m map[string][]measures.Measures, outName string) err
 			},
 		},
 		YAxis: chart.YAxis{
-			Name:  field,
-			Range: &chart.LogarithmicRange{},
+			Name: field,
 		},
 		XAxis: chart.XAxis{
 			Name:  "Amount",
 			Style: chart.Style{TextRotationDegrees: 45.0},
-			Range: &chart.LogarithmicRange{},
 		},
 		Series: make([]chart.Series, 0, len(m)),
 	}
@@ -58,6 +56,14 @@ func drawOne(field string, m map[string][]measures.Measures, outName string) err
 		}
 
 		graph.Series = append(graph.Series, s)
+	}
+
+	if lx {
+		graph.XAxis.Range = &chart.LogarithmicRange{}
+	}
+
+	if ly {
+		graph.YAxis.Range = &chart.LogarithmicRange{}
 	}
 
 	graph.Elements = []chart.Renderable{
