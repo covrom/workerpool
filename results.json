@@ -1,0 +1,362 @@
+{
+ "fastgo": [
+  {
+   "Case": "fastgo",
+   "Workers": 20,
+   "ChanLen": 10000,
+   "Amount": 300,
+   "Spent": 1121281,
+   "AllocBytes": 575408,
+   "AllocObjects": 2711,
+   "AllocBytesTotal": 575408,
+   "SystemMem": 262144
+  },
+  {
+   "Case": "fastgo",
+   "Workers": 20,
+   "ChanLen": 10000,
+   "Amount": 3000,
+   "Spent": 13052254,
+   "AllocBytes": 4220536,
+   "AllocObjects": 26759,
+   "AllocBytesTotal": 5572984,
+   "SystemMem": 327680
+  },
+  {
+   "Case": "fastgo",
+   "Workers": 20,
+   "ChanLen": 10000,
+   "Amount": 30000,
+   "Spent": 187966272,
+   "AllocBytes": 13290048,
+   "AllocObjects": 264573,
+   "AllocBytesTotal": 53969624,
+   "SystemMem": 72220920
+  },
+  {
+   "Case": "fastgo",
+   "Workers": 20,
+   "ChanLen": 10000,
+   "Amount": 300000,
+   "Spent": 2939066506,
+   "AllocBytes": 156060600,
+   "AllocObjects": 2821540,
+   "AllocBytesTotal": 563116600,
+   "SystemMem": 1261696000
+  },
+  {
+   "Case": "fastgo",
+   "Workers": 20,
+   "ChanLen": 10000,
+   "Amount": 1000000,
+   "Spent": 11342004523,
+   "AllocBytes": 740521080,
+   "AllocObjects": 9711505,
+   "AllocBytesTotal": 1985364008,
+   "SystemMem": 4764438912
+  },
+  {
+   "Case": "fastgo",
+   "Workers": 20,
+   "ChanLen": 10000,
+   "Amount": 3000000,
+   "Spent": 104298996206,
+   "AllocBytes": 2404505728,
+   "AllocObjects": 29743031,
+   "AllocBytesTotal": 6052894176,
+   "SystemMem": 17231539984
+  },
+  {
+   "Case": "fastgo",
+   "Workers": 20,
+   "ChanLen": 10000,
+   "Amount": 6000000,
+   "Spent": 387848165682,
+   "AllocBytes": 4693214328,
+   "AllocObjects": 59221161,
+   "AllocBytesTotal": 12075424600,
+   "SystemMem": 30006052504
+  },
+  {
+   "Case": "fastgo",
+   "Workers": 20,
+   "ChanLen": 10000,
+   "Amount": 10000000,
+   "Spent": 1229780271151,
+   "AllocBytes": 8621237888,
+   "AllocObjects": 99714555,
+   "AllocBytesTotal": 20227954560,
+   "SystemMem": 61597373896
+  }
+ ],
+ "fastpool": [
+  {
+   "Case": "fastpool",
+   "Workers": 20,
+   "ChanLen": 10000,
+   "Amount": 300,
+   "Spent": 548286,
+   "AllocBytes": 452496,
+   "AllocObjects": 2413,
+   "AllocBytesTotal": 452496,
+   "SystemMem": 1964280
+  },
+  {
+   "Case": "fastpool",
+   "Workers": 20,
+   "ChanLen": 10000,
+   "Amount": 3000,
+   "Spent": 7740288,
+   "AllocBytes": 809328,
+   "AllocObjects": 24037,
+   "AllocBytesTotal": 4517352,
+   "SystemMem": 851968
+  },
+  {
+   "Case": "fastpool",
+   "Workers": 20,
+   "ChanLen": 10000,
+   "Amount": 30000,
+   "Spent": 41060203,
+   "AllocBytes": 1966536,
+   "AllocObjects": 240112,
+   "AllocBytesTotal": 45140816,
+   "SystemMem": 2357496
+  },
+  {
+   "Case": "fastpool",
+   "Workers": 20,
+   "ChanLen": 10000,
+   "Amount": 300000,
+   "Spent": 503610897,
+   "AllocBytes": 2974152,
+   "AllocObjects": 2400489,
+   "AllocBytesTotal": 451293944,
+   "SystemMem": 983040
+  },
+  {
+   "Case": "fastpool",
+   "Workers": 20,
+   "ChanLen": 10000,
+   "Amount": 1000000,
+   "Spent": 1627296919,
+   "AllocBytes": 1604712,
+   "AllocObjects": 8001234,
+   "AllocBytesTotal": 1504265552,
+   "SystemMem": 917504
+  },
+  {
+   "Case": "fastpool",
+   "Workers": 20,
+   "ChanLen": 10000,
+   "Amount": 3000000,
+   "Spent": 3367229717,
+   "AllocBytes": 1694568,
+   "AllocObjects": 24003550,
+   "AllocBytesTotal": 4512760536,
+   "SystemMem": 917504
+  },
+  {
+   "Case": "fastpool",
+   "Workers": 20,
+   "ChanLen": 10000,
+   "Amount": 6000000,
+   "Spent": 7765407482,
+   "AllocBytes": 1306840,
+   "AllocObjects": 48006729,
+   "AllocBytesTotal": 9025480664,
+   "SystemMem": 917504
+  },
+  {
+   "Case": "fastpool",
+   "Workers": 20,
+   "ChanLen": 10000,
+   "Amount": 10000000,
+   "Spent": 19737419623,
+   "AllocBytes": 2210536,
+   "AllocObjects": 80011015,
+   "AllocBytesTotal": 15042440184,
+   "SystemMem": 2357496
+  }
+ ],
+ "go": [
+  {
+   "Case": "go",
+   "Workers": 20,
+   "ChanLen": 10000,
+   "Amount": 300,
+   "Spent": 1218503,
+   "AllocBytes": 315312,
+   "AllocObjects": 2236,
+   "AllocBytesTotal": 315312,
+   "SystemMem": 262144
+  },
+  {
+   "Case": "go",
+   "Workers": 20,
+   "ChanLen": 10000,
+   "Amount": 3000,
+   "Spent": 16593467,
+   "AllocBytes": 2874616,
+   "AllocObjects": 20575,
+   "AllocBytesTotal": 2874616,
+   "SystemMem": 2226424
+  },
+  {
+   "Case": "go",
+   "Workers": 20,
+   "ChanLen": 10000,
+   "Amount": 30000,
+   "Spent": 190713804,
+   "AllocBytes": 8917656,
+   "AllocObjects": 201337,
+   "AllocBytesTotal": 26695632,
+   "SystemMem": 2619640
+  },
+  {
+   "Case": "go",
+   "Workers": 20,
+   "ChanLen": 10000,
+   "Amount": 300000,
+   "Spent": 2936639432,
+   "AllocBytes": 141069624,
+   "AllocObjects": 2129646,
+   "AllocBytesTotal": 286384800,
+   "SystemMem": 702699768
+  },
+  {
+   "Case": "go",
+   "Workers": 20,
+   "ChanLen": 10000,
+   "Amount": 1000000,
+   "Spent": 8504847525,
+   "AllocBytes": 443989904,
+   "AllocObjects": 7127164,
+   "AllocBytesTotal": 1010422944,
+   "SystemMem": 2388109816
+  },
+  {
+   "Case": "go",
+   "Workers": 20,
+   "ChanLen": 10000,
+   "Amount": 3000000,
+   "Spent": 19126089683,
+   "AllocBytes": 1224830544,
+   "AllocObjects": 20974112,
+   "AllocBytesTotal": 3073509808,
+   "SystemMem": 7506821696
+  },
+  {
+   "Case": "go",
+   "Workers": 20,
+   "ChanLen": 10000,
+   "Amount": 6000000,
+   "Spent": 294868902311,
+   "AllocBytes": 2567863096,
+   "AllocObjects": 47312523,
+   "AllocBytesTotal": 6733444632,
+   "SystemMem": 30978635416
+  },
+  {
+   "Case": "go",
+   "Workers": 20,
+   "ChanLen": 10000,
+   "Amount": 10000000,
+   "Spent": 796706163129,
+   "AllocBytes": 6568892512,
+   "AllocObjects": 79419363,
+   "AllocBytesTotal": 11282704736,
+   "SystemMem": 53210097096
+  }
+ ],
+ "pool": [
+  {
+   "Case": "pool",
+   "Workers": 20,
+   "ChanLen": 10000,
+   "Amount": 300,
+   "Spent": 996790,
+   "AllocBytes": 194656,
+   "AllocObjects": 1973,
+   "AllocBytesTotal": 194656,
+   "SystemMem": 524288
+  },
+  {
+   "Case": "pool",
+   "Workers": 20,
+   "ChanLen": 10000,
+   "Amount": 3000,
+   "Spent": 5977905,
+   "AllocBytes": 1855656,
+   "AllocObjects": 18140,
+   "AllocBytesTotal": 1855656,
+   "SystemMem": 524288
+  },
+  {
+   "Case": "pool",
+   "Workers": 20,
+   "ChanLen": 10000,
+   "Amount": 30000,
+   "Spent": 82256979,
+   "AllocBytes": 4457712,
+   "AllocObjects": 180203,
+   "AllocBytesTotal": 18499080,
+   "SystemMem": 2423032
+  },
+  {
+   "Case": "pool",
+   "Workers": 20,
+   "ChanLen": 10000,
+   "Amount": 300000,
+   "Spent": 940601861,
+   "AllocBytes": 3190832,
+   "AllocObjects": 1800340,
+   "AllocBytesTotal": 184832416,
+   "SystemMem": 917504
+  },
+  {
+   "Case": "pool",
+   "Workers": 20,
+   "ChanLen": 10000,
+   "Amount": 1000000,
+   "Spent": 2874085875,
+   "AllocBytes": 2301368,
+   "AllocObjects": 6000351,
+   "AllocBytesTotal": 616040064,
+   "SystemMem": 2357496
+  },
+  {
+   "Case": "pool",
+   "Workers": 20,
+   "ChanLen": 10000,
+   "Amount": 3000000,
+   "Spent": 7776106007,
+   "AllocBytes": 4410752,
+   "AllocObjects": 18000693,
+   "AllocBytesTotal": 1848077736,
+   "SystemMem": 917504
+  },
+  {
+   "Case": "pool",
+   "Workers": 20,
+   "ChanLen": 10000,
+   "Amount": 6000000,
+   "Spent": 19760032198,
+   "AllocBytes": 2378848,
+   "AllocObjects": 36001164,
+   "AllocBytesTotal": 3696113224,
+   "SystemMem": 917504
+  },
+  {
+   "Case": "pool",
+   "Workers": 20,
+   "ChanLen": 10000,
+   "Amount": 10000000,
+   "Spent": 32866819715,
+   "AllocBytes": 4385936,
+   "AllocObjects": 60001661,
+   "AllocBytesTotal": 6160155088,
+   "SystemMem": 917504
+  }
+ ]
+}
