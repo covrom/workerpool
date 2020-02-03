@@ -38,8 +38,8 @@ var testResult = testType{
 }
 
 func copyBytes(src []byte) []byte {
-	return src
-	//b := make([]byte, len(src))
-	//copy(b, src)
-	//return b
+	//return src
+	b := make([]byte, len(src))
+	copy(b, src)
+	return b
 }

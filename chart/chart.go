@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 	"sort"
+	"strconv"
 
 	"github.com/covrom/workerpool/measures"
 	"github.com/wcharczuk/go-chart"
@@ -53,10 +54,15 @@ func drawOne(field string, m map[string][]measures.Measures, outName string, lx 
 		for _, p := range m[c] {
 			s.XValues = append(s.XValues, float64(p.Amount))
 			s.YValues = append(s.YValues, p.Value(field))
+			graph.XAxis.Ticks = append(graph.XAxis.Ticks, chart.Tick{Value: float64(p.Amount), Label: strconv.Itoa(p.Amount)})
+			graph.YAxis.Ticks = append(graph.YAxis.Ticks, chart.Tick{Value: float64(int(p.Value(field))), Label: fmt.Sprintf("%d", int(p.Value(field)))})
 		}
 
 		graph.Series = append(graph.Series, s)
 	}
+
+	graph.XAxis.Ticks = cleanTicks(graph.XAxis.Ticks)
+	graph.YAxis.Ticks = cleanTicks(graph.YAxis.Ticks)
 
 	if lx {
 		graph.XAxis.Range = &chart.LogarithmicRange{}
@@ -95,4 +101,21 @@ func getCasesSorted(m map[string][]measures.Measures) []string {
 	sort.Strings(l)
 
 	return l
+}
+
+func cleanTicks(in []chart.Tick) []chart.Tick {
+	sort.Slice(in, func(i, j int) bool { return in[i].Value < in[j].Value })
+
+	j := 0
+	for i := 1; i < len(in); i++ {
+		if in[j].Value == in[i].Value {
+			continue
+		}
+
+		j++
+
+		in[j] = in[i]
+	}
+
+	return in[:j+1]
 }
