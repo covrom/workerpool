@@ -7,6 +7,7 @@ import (
 	"log"
 	"os"
 	"runtime"
+	"runtime/debug"
 	"runtime/pprof"
 	"time"
 
@@ -16,8 +17,12 @@ import (
 
 var ErrCaseUndefined = errors.New("case undefined")
 
-func RunOne(name string, workers int, chanLen int, amount int, profile string) {
-	log.Printf("runOne: Name %v, Workers %v, ChanLen %v, Amount %v, Profile %v", name, workers, chanLen, amount, profile)
+func RunOne(name string, workers int, chanLen int, amount int, profile string, nogc bool) {
+	log.Printf("runOne: Name %v, Workers %v, ChanLen %v, Amount %v, Profile %v, NoGC %v", name, workers, chanLen, amount, profile, nogc)
+
+	if nogc {
+		debug.SetGCPercent(-1)
+	}
 
 	if profile != "" {
 		f, err := os.Create(profile)
@@ -58,7 +63,7 @@ func RunOne(name string, workers int, chanLen int, amount int, profile string) {
 			Workers:         workers,
 			ChanLen:         chanLen,
 			Amount:          amount,
-			SpentMs:           SpentMs,
+			SpentMs:         SpentMs,
 			AllocBytes:      m2.Alloc - m1.Alloc,
 			AllocObjects:    m2.Mallocs - m1.Mallocs,
 			AllocBytesTotal: m2.TotalAlloc - m1.TotalAlloc,

@@ -27,6 +27,7 @@ var (
 	cmdRunOneChanLen = cmdRunOne.Flag("chan", "channel buffer size for workerpool type").Required().Int()
 	cmdRunOneAmount  = cmdRunOne.Flag("amount", "objects count").Required().Int()
 	cmdRunOneProfile = cmdRunOne.Flag("profile", "write cpu profile to `file`").Default("").String()
+	cmdRunGCDisable  = cmdRunOne.Flag("nogc", "disable GC").Bool()
 
 	cmdChart    = app.Command("chart", "generate chart from the previously collected data")
 	cmdChartIn  = cmdChart.Flag("res", "file the results are stored").Default("results.json").String()
@@ -54,7 +55,7 @@ func main() {
 			*cmdRunAllLY,
 		)
 	case cmdRunOne.FullCommand():
-		commands.RunOne(*cmdRunOneName, *cmdRunOneWorkers, *cmdRunOneChanLen, *cmdRunOneAmount, *cmdRunOneProfile)
+		commands.RunOne(*cmdRunOneName, *cmdRunOneWorkers, *cmdRunOneChanLen, *cmdRunOneAmount, *cmdRunOneProfile, *cmdRunGCDisable)
 	case cmdChart.FullCommand():
 		commands.Chart(*cmdChartIn, *cmdChartOut, *cmdChartLX, *cmdChartLY)
 	case cmdCSV.FullCommand():
