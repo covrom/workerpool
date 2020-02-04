@@ -15,7 +15,7 @@ var (
 	cmdRunAllOut     = cmdRunAll.Flag("res", "file the results are stored").Default("results.json").String()
 	cmdRunAllWorkers = cmdRunAll.Flag("workers", "number of workers for workerpool types").Default("20").Int()
 	cmdRunAllChanLen = cmdRunAll.Flag("chan", "channel buffer size for workerpool type").Default("10000").Int()
-	cmdRunAllAmount  = cmdRunAll.Flag("amount", "objects count, separate test will be running for each value listed").Short('a').Int32List()
+	cmdRunAllAmount  = cmdRunAll.Flag("amount", "objects count, separate test will be running for each value listed").Short('a').Strings()
 	cmdRunAllProfile = cmdRunAll.Flag("profile", "write cpu profile to `file`").String()
 	cmdRunAllChart   = cmdRunAll.Flag("chart", "file name for the PNG format chart").String()
 	cmdRunAllLX      = cmdRunAll.Flag("lx", "logarithmic X axis").Bool()

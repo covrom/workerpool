@@ -2,6 +2,7 @@
 benchmark: workerpool vs goroutines with params
 
 ```
-go run ./main.go run -a 300 -a 3000 -a 30000 -a 300000 -a 1000000 -a 3000000 -a 6000000 -a 10000000 -a 20000000 -a 30000000
-go run ./main.go chart --lx --ly
+go build .
+./workerpool run -a 30,100,300,1000,3000,10000,30000,100000,300000,600000,1000000,3000000,6000000,10000000,30000000
+./workerpool chart --lx --ly
 ```

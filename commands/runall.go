@@ -8,6 +8,7 @@ import (
 	"os/exec"
 	"sort"
 	"strconv"
+	"strings"
 
 	"github.com/covrom/workerpool/cases"
 	"github.com/covrom/workerpool/chart"
@@ -19,7 +20,7 @@ func RunAll(
 	out string,
 	workers int,
 	chanLen int,
-	amount []int32,
+	amount []string,
 	profile string,
 	chartOut string,
 	lx bool,
@@ -33,40 +34,45 @@ func RunAll(
 
 	res := make(map[string][]measures.Measures, len(casesList))
 
-	for _, a := range amount {
-		for _, c := range casesList {
-			p := profile
-			if p != "" {
-				p = fmt.Sprintf("%s.%d.%s", c, a, p)
+	for _, a0 := range amount {
+		for _, a := range strings.Split(a0, ",") {
+			if _, err := strconv.Atoi(a); err != nil {
+				log.Fatalf("incorrect -a argument: %s", a)
 			}
+			for _, c := range casesList {
+				p := profile
+				if p != "" {
+					p = fmt.Sprintf("%s.%d.%s", c, a, p)
+				}
 
-			cmd := exec.Command(
-				os.Args[0], "runone", c,
-				"--chan", strconv.Itoa(chanLen),
-				"--workers", strconv.Itoa(int(workers)),
-				"--amount", strconv.Itoa(int(a)),
-				"--profile", p,
-			)
+				cmd := exec.Command(
+					os.Args[0], "runone", c,
+					"--chan", strconv.Itoa(chanLen),
+					"--workers", strconv.Itoa(int(workers)),
+					"--amount", a,
+					"--profile", p,
+				)
 
-			b, err := cmd.Output()
-			if err != nil {
-				log.Printf("Error running %q: %v", cmd.String(), err)
-				continue
-			}
+				b, err := cmd.Output()
+				if err != nil {
+					log.Printf("Error running %q: %v", cmd.String(), err)
+					continue
+				}
 
-			m := measures.Measures{}
-			err = json.Unmarshal(b, &m)
-			if err != nil {
-				panic(err)
-			}
+				m := measures.Measures{}
+				err = json.Unmarshal(b, &m)
+				if err != nil {
+					panic(err)
+				}
 
-			log.Printf("%#v", m)
+				log.Printf("%#v", m)
 
-			res[c] = append(res[c], m)
+				res[c] = append(res[c], m)
 
-			err = saveResults(res, out)
-			if err != nil {
-				panic(err)
+				err = saveResults(res, out)
+				if err != nil {
+					panic(err)
+				}
 			}
 		}
 	}
@@ -92,7 +98,7 @@ func enumerateCases(c map[string]cases.Case) []string {
 }
 
 func saveResults(res map[string][]measures.Measures, out string) error {
-	err := writeResults(res, out + ".tmp")
+	err := writeResults(res, out+".tmp")
 	if err != nil {
 		return err
 	}
