@@ -10,16 +10,17 @@ import (
 var (
 	app = kingpin.New("workerspool-test", "run the workerspool test")
 
-	cmdRunAll        = app.Command("run", "run all the defined test, write results to JSON file")
-	cmdRunAllCases   = cmdRunAll.Arg("cases", "cases to run, omit to run all the defined").Strings()
-	cmdRunAllOut     = cmdRunAll.Flag("res", "file the results are stored").Default("results.json").String()
-	cmdRunAllWorkers = cmdRunAll.Flag("workers", "number of workers for workerpool types").Default("20").Int()
-	cmdRunAllChanLen = cmdRunAll.Flag("chan", "channel buffer size for workerpool type").Default("10000").Int()
-	cmdRunAllAmount  = cmdRunAll.Flag("amount", "objects count, separate test will be running for each value listed").Short('a').Strings()
-	cmdRunAllProfile = cmdRunAll.Flag("profile", "write cpu profile to `file`").String()
-	cmdRunAllChart   = cmdRunAll.Flag("chart", "file name for the PNG format chart").String()
-	cmdRunAllLX      = cmdRunAll.Flag("lx", "logarithmic X axis").Bool()
-	cmdRunAllLY      = cmdRunAll.Flag("ly", "logarithmic Y axis").Bool()
+	cmdRunAll          = app.Command("run", "run all the defined test, write results to JSON file")
+	cmdRunAllCases     = cmdRunAll.Arg("cases", "cases to run, omit to run all the defined").Strings()
+	cmdRunAllOut       = cmdRunAll.Flag("res", "file the results are stored").Default("results.json").String()
+	cmdRunAllWorkers   = cmdRunAll.Flag("workers", "number of workers for workerpool types").Default("20").Int()
+	cmdRunAllChanLen   = cmdRunAll.Flag("chan", "channel buffer size for workerpool type").Default("10000").Int()
+	cmdRunAllAmount    = cmdRunAll.Flag("amount", "objects count, separate test will be running for each value listed").Short('a').Strings()
+	cmdRunAllProfile   = cmdRunAll.Flag("profile", "write cpu profile to `file`").String()
+	cmdRunAllChart     = cmdRunAll.Flag("chart", "file name for the PNG format chart").String()
+	cmdRunAllLX        = cmdRunAll.Flag("lx", "logarithmic X axis").Bool()
+	cmdRunAllLY        = cmdRunAll.Flag("ly", "logarithmic Y axis").Bool()
+	cmdRunAllGCDisable = cmdRunAll.Flag("nogc", "disable GC").Bool()
 
 	cmdRunOne        = app.Command("runone", "run the specified test, write results to STDOUT")
 	cmdRunOneName    = cmdRunOne.Arg("case", "name of the case to run").Required().String()
@@ -53,6 +54,7 @@ func main() {
 			*cmdRunAllChart,
 			*cmdRunAllLX,
 			*cmdRunAllLY,
+			*cmdRunAllGCDisable,
 		)
 	case cmdRunOne.FullCommand():
 		commands.RunOne(*cmdRunOneName, *cmdRunOneWorkers, *cmdRunOneChanLen, *cmdRunOneAmount, *cmdRunOneProfile, *cmdRunGCDisable)

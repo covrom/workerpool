@@ -68,6 +68,7 @@ func RunOne(name string, workers int, chanLen int, amount int, profile string, n
 			AllocObjects:    m2.Mallocs - m1.Mallocs,
 			AllocBytesTotal: m2.TotalAlloc - m1.TotalAlloc,
 			SystemMem:       m2.Sys - m1.Sys,
+			NoGC:            nogc,
 		},
 	)
 	if err != nil {

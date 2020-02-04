@@ -12,11 +12,12 @@ type Measures struct {
 	Workers         int           // "Воркеры (шт)",
 	ChanLen         int           // "Буфер канала (шт)",
 	Amount          int           // "Объекты (шт)",
-	SpentMs           time.Duration // "Время работы (сек)",
+	SpentMs         time.Duration // "Время работы (сек)",
 	AllocBytes      uint64        // "Alloc space (байт)",
 	AllocObjects    uint64        // "Alloc objects (шт)",
 	AllocBytesTotal uint64        // "Total alloc (байт)",
 	SystemMem       uint64        // "System memory (байт)",
+	NoGC            bool
 }
 
 func (m Measures) Fields() []string {
@@ -39,7 +40,7 @@ func Fields() []string {
 		"Workers",         // "Воркеры (шт)",
 		"ChanLen",         // "Буфер канала (шт)",
 		"Amount",          // "Объекты (шт)",
-		"SpentMs",           // "Время работы (мс)",
+		"SpentMs",         // "Время работы (мс)",
 		"AllocBytes",      // "Alloc space (байт)",
 		"AllocObjects",    // "Alloc objects (шт)",
 		"AllocBytesTotal", // "Total alloc (байт)",
@@ -49,7 +50,7 @@ func Fields() []string {
 
 func Values() []string {
 	return []string{
-		"SpentMs",           // "Время работы (мс)",
+		"SpentMs",         // "Время работы (мс)",
 		"AllocBytes",      // "Alloc space (байт)",
 		"AllocObjects",    // "Alloc objects (шт)",
 		"AllocBytesTotal", // "Total alloc (байт)",

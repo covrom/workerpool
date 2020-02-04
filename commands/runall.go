@@ -25,12 +25,13 @@ func RunAll(
 	chartOut string,
 	lx bool,
 	ly bool,
+	nogc bool,
 ) {
 	if len(casesList) == 0 {
 		casesList = enumerateCases(cases.Cases)
 	}
 
-	log.Printf("runAll: Cases: %v, Out %v, Workers %v, ChanLen %v, Amount %v, Profile %v, Chart %v", casesList, out, workers, chanLen, amount, profile, chartOut)
+	log.Printf("runAll: Cases: %v, Out %v, Workers %v, ChanLen %v, Amount %v, Profile %v, Chart %v, NoGC %v", casesList, out, workers, chanLen, amount, profile, chartOut, nogc)
 
 	res := make(map[string][]measures.Measures, len(casesList))
 
@@ -52,6 +53,16 @@ func RunAll(
 					"--amount", a,
 					"--profile", p,
 				)
+				if nogc {
+					cmd = exec.Command(
+						os.Args[0], "runone", c,
+						"--chan", strconv.Itoa(chanLen),
+						"--workers", strconv.Itoa(int(workers)),
+						"--amount", a,
+						"--profile", p,
+						"--nogc",
+					)
+				}
 
 				b, err := cmd.Output()
 				if err != nil {
