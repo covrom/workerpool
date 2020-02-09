@@ -48,9 +48,17 @@ func workerWeb(f func() testType, chin <-chan []byte, chout chan<- testType) {
 }
 
 func processingWeb() testType {
-	resp, err := http.Get("http://127.0.0.1:9000/")
+	var resp *http.Response
+	var err error
+	for i := 0; i < 100; i++ {
+		resp, err = http.Get("http://127.0.0.1:9000/")
+		if err != nil {
+			log.Printf("retry fo reason: processingWeb error: %s", err)
+		} else {
+			break
+		}
+	}
 	if err != nil {
-		log.Printf("processingWeb error: %s", err)
 		return testType{}
 	}
 	defer resp.Body.Close()
