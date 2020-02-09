@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"io"
 	"net/http"
+	"time"
 )
 
 func init() {
@@ -15,6 +16,7 @@ func init() {
 
 func goPrepareWeb(_ int, chanLen int, amount int) (chin chan []byte, chout chan testType) {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		time.Sleep(20 * time.Millisecond)
 		io.Copy(w, bytes.NewReader(testData))
 	})
 	go http.ListenAndServe("127.0.0.1:9000", nil)

@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"time"
 )
 
 func init() {
@@ -24,6 +25,7 @@ func poolPrepareWeb(workers int, chanLen int, amount int) (chin chan []byte, cho
 	}
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		time.Sleep(20 * time.Millisecond)
 		io.Copy(w, bytes.NewReader(testData))
 	})
 	go http.ListenAndServe("127.0.0.1:9000", nil)
